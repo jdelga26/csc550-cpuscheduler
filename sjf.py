@@ -1,4 +1,2 @@
-def schedule(workload):
-    # for process in workload:
-    #     print(process)
-    print("Hello World.")
+def schedule(ready_queue):
+    return min(ready_queue, key=lambda x:x['Burst Time'])['Process id']
