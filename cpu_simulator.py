@@ -9,8 +9,9 @@ import fcfs
 import sjf
 import rr
 import bbq
+import prr
 
-algorithms = set(["fcfs", "sjf", "rr", "bbq"])
+algorithms = set(["fcfs", "sjf", "rr", "bbq", "prr"])
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="The name of the CSV file containing a sample workload.", required=True, type=str)
