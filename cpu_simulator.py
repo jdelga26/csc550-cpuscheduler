@@ -11,8 +11,9 @@ import rr
 import bbq
 import prr
 import cfs_lite
+import residual
 
-algorithms = set(["fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite"])
+algorithms = set(["fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite", "residual"])
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="The name of the CSV file containing a sample workload.", required=True, type=str)
