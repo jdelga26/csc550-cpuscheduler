@@ -17,6 +17,7 @@ def schedule(ready_queue):
         if vruntimes[pid_running] <= ideal_runtime:
             return pid_running
 
+    [vruntimes[i] for i in ready_pids]
     pid_running = min(ready_pids, key=vruntimes.get)
     process = ready_queue[ready_pids.index(pid_running)]
     vruntimes[pid_running] += 1 * (1.25**process['Priority'])

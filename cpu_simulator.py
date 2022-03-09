@@ -12,8 +12,9 @@ import bbq
 import prr
 import cfs_lite
 import residual
+import ats
 
-algorithms = set(["fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite", "residual"])
+algorithms = set(["all","fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite", "residual", "ats"])
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="The name of the CSV file containing a sample workload.", required=True, type=str)
@@ -36,10 +37,15 @@ def simulate(workload, schedule, verbose):
         if ready_queue != []:
             before_timestamp = time.time()
             i = ready_ids.index(schedule(ready_queue))
-
+            
             metrics.scheduler_runtime += time.time() - before_timestamp
             if current_workload[i]['Process id'] not in metrics.answer_times.keys():
                 metrics.answer_times[current_workload[i]['Process id']] = metrics.t
+
+            metrics.starvation[current_workload[i]['Process id']].append(0)
+            for waiting_process_id in ready_ids:
+                if waiting_process_id != current_workload[i]['Process id']:
+                    metrics.starvation[waiting_process_id][-1] += 1
 
             if verbose:
                 print(current_workload[i])
@@ -70,7 +76,15 @@ def main():
         workload = [dict(zip(headers,[int(num) for num in process])) for process in data[1:]]
         workload = sorted(workload, key=lambda x:x['Arrival Time'])
 
-    simulate(workload, globals()[scheduler.lower()].schedule, verbose)
+    if scheduler == 'all':
+        for s in algorithms:
+            if s == 'all':
+                continue
+            print(s)
+            simulate(workload, globals()[s.lower()].schedule, verbose)
+            print('\n')
+    else:
+        simulate(workload, globals()[scheduler.lower()].schedule, verbose)
 
 if __name__ == '__main__':
     main()
