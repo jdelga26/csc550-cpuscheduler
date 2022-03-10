@@ -1,0 +1,64 @@
+fcfs
+Avg. Answer times: 89.5
+Avg. Turnaround times: 101.4
+Avg. Waiting times: 83.2
+Tail Latency: 166
+Scheduler runtime: 0.0
+
+
+rr
+Avg. Answer times: 46.1
+Avg. Turnaround times: 134.3
+Avg. Waiting times: 116.1
+Tail Latency: 81
+Scheduler runtime: 0.0010016
+
+
+ats
+Avg. Answer times: 89.5
+Avg. Turnaround times: 101.4
+Avg. Waiting times: 83.2
+Tail Latency: 166
+Scheduler runtime: 1.1192503
+
+
+sjf
+Avg. Answer times: 62.4
+Avg. Turnaround times: 74.3
+Avg. Waiting times: 56.1
+Tail Latency: 149
+Scheduler runtime: 0.0
+
+
+cfs_lite
+Avg. Answer times: 7.7
+Avg. Turnaround times: 114.1
+Avg. Waiting times: 95.9
+Tail Latency: 61
+Scheduler runtime: 0.0
+
+
+residual
+Avg. Answer times: 49.1
+Avg. Turnaround times: 84.3
+Avg. Waiting times: 66.1
+Tail Latency: 92
+Scheduler runtime: 0.0
+
+
+prr
+Avg. Answer times: 45.7
+Avg. Turnaround times: 137.5
+Avg. Waiting times: 119.3
+Tail Latency: 80
+Scheduler runtime: 0.0
+
+
+bbq
+Avg. Answer times: 74.2
+Avg. Turnaround times: 106.9
+Avg. Waiting times: 88.7
+Tail Latency: 123
+Scheduler runtime: 0.0010002
+
+

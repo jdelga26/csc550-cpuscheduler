@@ -1,0 +1,64 @@
+ats
+Avg. Answer times: 5432.945
+Avg. Turnaround times: 5430.255
+Avg. Waiting times: 5375.015
+Tail Latency: 10836
+Scheduler runtime: 104.7001863
+
+
+cfs_lite
+Avg. Answer times: 992.17
+Avg. Turnaround times: 5752.525
+Avg. Waiting times: 5697.285
+Tail Latency: 6187
+Scheduler runtime: 0.1870425
+
+
+rr
+Avg. Answer times: 1054.95
+Avg. Turnaround times: 7930.1
+Avg. Waiting times: 7874.86
+Tail Latency: 1990
+Scheduler runtime: 8.8532362
+
+
+residual
+Avg. Answer times: 1084.485
+Avg. Turnaround times: 6505.745
+Avg. Waiting times: 6450.505
+Tail Latency: 2072
+Scheduler runtime: 5.207293
+
+
+bbq
+Avg. Answer times: 4779.525
+Avg. Turnaround times: 5777.745
+Avg. Waiting times: 5722.505
+Tail Latency: 9524
+Scheduler runtime: 3.2577221
+
+
+prr
+Avg. Answer times: 1000.625
+Avg. Turnaround times: 7953.945
+Avg. Waiting times: 7898.705
+Tail Latency: 1990
+Scheduler runtime: 5.6582961
+
+
+sjf
+Avg. Answer times: 4017.88
+Avg. Turnaround times: 4008.275
+Avg. Waiting times: 3953.035
+Tail Latency: 10868
+Scheduler runtime: 0.0600123
+
+
+fcfs
+Avg. Answer times: 5441.8
+Avg. Turnaround times: 5432.01
+Avg. Waiting times: 5376.77
+Tail Latency: 10836
+Scheduler runtime: 0.0700047
+
+
