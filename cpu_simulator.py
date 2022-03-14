@@ -14,7 +14,7 @@ import cfs_lite
 import residual
 import ats
 
-algorithms = set(["all","fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite", "residual", "ats"])
+algorithms = ["all", "fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite", "residual", "ats"]
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="The name of the CSV file containing a sample workload.", required=True, type=str)
@@ -25,6 +25,7 @@ def simulate(workload, schedule, verbose):
     metrics = Metrics(deepcopy(workload), verbose)
     current_workload = deepcopy(workload)
     metrics.t = 0
+    last_ran = None
     while len(current_workload) > 0:
         ready_queue = current_workload
         for i, process in enumerate(current_workload):
@@ -37,6 +38,9 @@ def simulate(workload, schedule, verbose):
         if ready_queue != []:
             before_timestamp = time.time()
             i = ready_ids.index(schedule(ready_queue))
+            if ready_ids[i] != last_ran:
+                metrics.context_switches += 1
+                last_ran = ready_ids[i]
             
             metrics.scheduler_runtime += time.time() - before_timestamp
             if current_workload[i]['Process id'] not in metrics.answer_times.keys():
