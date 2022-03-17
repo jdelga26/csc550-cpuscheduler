@@ -13,9 +13,9 @@ import prr
 import cfs_lite
 import residual
 import ats
-import score
+import dfs
 
-algorithms = ["all", "fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite", "residual", "ats", "score"]
+algorithms = ["all", "fcfs", "sjf", "rr", "bbq", "prr", "cfs_lite", "residual", "ats", "dfs"]
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--file", help="The name of the CSV file containing a sample workload.", required=True, type=str)

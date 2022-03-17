@@ -3,6 +3,7 @@ from sklearn import metrics
 from sklearn.cluster import KMeans
 from collections import defaultdict
 import warnings
+import math
 
 warnings.filterwarnings('ignore')
 
@@ -33,7 +34,7 @@ def get_adjust_time_slices(ready_queue):
 
     for process in ready_queue:
         pid = process['Process id']
-        dataset.append([process['Burst Time'], process_weights[pid], permitted_time_quanta[pid], proportional_burst_time[pid], num_context_switches[pid]])
+        dataset.append([process['Burst Time'], process_weights[pid], permitted_time_quanta[pid], proportional_burst_time[pid], num_context_switches[pid], proportional_time_slice[pid]])
 
     silhouette_coefficient = 0
     max_n = 0
@@ -55,7 +56,7 @@ def get_adjust_time_slices(ready_queue):
 
     cluster_weights = {label:cluster_average_burst_time[label] / sum(cluster_average_burst_time.values()) for label in clusters}
     cluster_time_slice = {label:(1 - (cluster_weights[label] / sum(cluster_weights.values()))) * time_slice for label in clusters}
-    process_time_slice = {process['Process id']:cluster_time_slice[label] for label, process in zip(kmeans.labels_, ready_queue)}
+    process_time_slice = {process['Process id']:math.ceil(cluster_time_slice[label]) for label, process in zip(kmeans.labels_, ready_queue)}
 
     # dynamic implementations
 
@@ -74,14 +75,17 @@ def schedule(ready_queue):
     global remaining_time
     global time_slices
 
+    # ATS requires 3 or more processes to cluster.
     if len(ready_queue) == 1 or len(ready_queue) == 2:
         return ready_queue[0]['Process id']
 
-    if not time_slices:
-        time_slices = get_adjust_time_slices(ready_queue)
-
     if not rr_queue:
         rr_queue = ready_queue
+
+    if not time_slices:
+        time_slices = get_adjust_time_slices(ready_queue)
+        remaining_time = time_slices[rr_queue[0]["Process id"]]
+
     if rr_queue:
         to_add = [process for process in ready_queue if process not in rr_queue]
         if to_add:
@@ -94,7 +98,7 @@ def schedule(ready_queue):
             time_slices = get_adjust_time_slices(ready_queue)
 
     if not remaining_time:
-        remaining_time = time_slices[rr_queue[0]["Process id"]]
+        remaining_time = time_slices[rr_queue[1]["Process id"]]
         rr_queue.append(rr_queue[0])
         del rr_queue[0]
 
