@@ -1,4 +1,4 @@
-vruntimes = {}       # Keeps record of how much CPU time a process has used... Somewhat. This value is scaled by priority per process ("niceness"). Also new processes that show up for the first time aren't automatically owed a bunch of CPU time just because the device happens to have been running for a while.
+vruntimes = {}       # Keeps record of how much CPU time a process has used... Somewhat. This value is scaled by priority per process ("niceness").
 
 target_latency = 100 # Can guarantee this latency on any process of average or above-average priority.
 min_slice = 5        # Minimum number of ticks a process must be allowed to run before context switching.
@@ -15,10 +15,7 @@ def schedule(ready_queue):
 
     for pid in ready_pids:
         if pid not in vruntimes.keys():
-            if len(vruntimes):
-                vruntimes[pid] = min(vruntimes.values())
-            else:
-                vruntimes[pid] = 0.
+            vruntimes[pid] = 0.
 
     if pid_running in ready_pids and time_elapsed < max(target_latency // len(ready_queue), min_slice):
         process = ready_queue[ready_pids.index(pid_running)]
