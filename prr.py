@@ -7,13 +7,13 @@ def schedule(ready_queue):
     global remaining_time
 
     if not rr_queue:
-        rr_queue = sorted(ready_queue, key=lambda x:x['Priority'])
+        rr_queue = sorted(ready_queue, key=lambda x:x['Priority'], reverse=True)
     if rr_queue:
         to_add = [process for process in ready_queue if process not in rr_queue]
         if to_add:
             for process in to_add:
                 index = 0
-                while index < len(rr_queue) and process['Priority'] >= rr_queue[index]['Priority']:
+                while index < len(rr_queue) and process['Priority'] <= rr_queue[index]['Priority']:
                     index += 1
                 rr_queue = rr_queue[:index] + [process] + rr_queue[index:]
 
