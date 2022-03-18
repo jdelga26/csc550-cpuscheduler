@@ -93,7 +93,7 @@ def schedule(ready_queue):
         to_subtract = [process for process in rr_queue if process not in ready_queue]
         if to_subtract:
             rr_queue.remove(to_subtract[0])
-        if to_add or to_subtract and len(ready_queue >= 3):
+        if (to_add or to_subtract) and len(ready_queue) >= 3:
             time_slices = get_adjust_time_slices(ready_queue)
         if to_subtract:
             remaining_time = time_slices[rr_queue[0]["Process id"]]
