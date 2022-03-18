@@ -76,7 +76,7 @@ def schedule(ready_queue):
     global time_slices
 
     # ATS requires 3 or more processes to cluster.
-    if len(ready_queue) == 1 or len(ready_queue) == 2:
+    if len(ready_queue) < 3:
         return ready_queue[0]['Process id']
 
     if not rr_queue:
@@ -93,9 +93,10 @@ def schedule(ready_queue):
         to_subtract = [process for process in rr_queue if process not in ready_queue]
         if to_subtract:
             rr_queue.remove(to_subtract[0])
-            remaining_time = time_slices[rr_queue[0]["Process id"]]
-        if to_add or to_subtract:
+        if to_add or to_subtract and len(ready_queue >= 3):
             time_slices = get_adjust_time_slices(ready_queue)
+        if to_subtract:
+            remaining_time = time_slices[rr_queue[0]["Process id"]]
 
     if not remaining_time:
         remaining_time = time_slices[rr_queue[1]["Process id"]]
