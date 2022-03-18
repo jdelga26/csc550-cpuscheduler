@@ -1,13 +1,15 @@
+# "Differently Fair Scheduler"
 # Random new algorithm idea, similar to CFS but also not. Just because.
 # Basically computes a score for each process and always runs the highest scoring one. Score is based on things like how much CPU time the process has already been given, the current latency of that process, and whether or not running that process would require a context switch.
 # For a real-life implementation you would want to do calculations to predict *when* the process will no longer have the highest score, and just keep running it until that point without recalculating with each step. That would incur rather less overhead. But for the purposes of just testing this thing, meh.
 
 import math
+import sys
 
 runtimes = {}
 waittimes = {}
 
-base_context_switch_penalty = 40
+base_context_switch_penalty = 50
 context_switch_penalty = base_context_switch_penalty
 priority_factor = 1.25
 
@@ -33,8 +35,8 @@ def schedule(ready_queue):
                 runtimes[pid] = min(runtimes.values())
             else:
                 runtimes[pid] = 0
-            waittimes[pid] = 0
-
+            waittimes[pid] = sys.maxsize
+    
     vlatencies = [context_switch_penalty if pid == pid_running else waittimes[pid] for pid in ready_pids]
     vlatencies = [vlatency*(priority_factor**priorities[pid]) for vlatency,pid in zip(vlatencies,ready_pids)]
     normalized_vlatencies = [latency/(max(vlatencies)+1) for latency in vlatencies]
