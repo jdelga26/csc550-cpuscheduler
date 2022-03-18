@@ -75,8 +75,8 @@ def schedule(ready_queue):
     global remaining_time
     global time_slices
 
-    # ATS requires 3 or more processes to cluster.
-    if len(ready_queue) < 3:
+    # ATS requires 3 or more processes to cluster. The processes also need to not all have identical burst times for the silhouette scoring to work. The behavior for this case is not defined in the paper, and while it is quite rare it *does* happen once in one of the randomly generated workloads.
+    if len(ready_queue) < 3 or all([process['Burst Time'] == ready_queue[0]['Burst Time'] for process in ready_queue]):
         return ready_queue[0]['Process id']
 
     if not rr_queue:
@@ -94,7 +94,11 @@ def schedule(ready_queue):
         if to_subtract:
             rr_queue.remove(to_subtract[0])
         if (to_add or to_subtract) and len(ready_queue) >= 3:
-            time_slices = get_adjust_time_slices(ready_queue)
+            if all([process['Burst Time'] == ready_queue[0]['Burst Time'] for process in ready_queue]):
+                time_slices = {}
+                return ready_queue[0]['Process id']
+            else:
+                time_slices = get_adjust_time_slices(ready_queue)
         if to_subtract:
             remaining_time = time_slices[rr_queue[0]["Process id"]]
 
